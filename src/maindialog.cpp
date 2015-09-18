@@ -7,12 +7,16 @@ MainDialog::MainDialog(const QString& path, QWidget *parent)
 
     ui.setupUi(this);
 
+    setWindowTitle(QCoreApplication::applicationName() + " v" +
+                   QCoreApplication::applicationVersion());
+
     ui.label->setMovie(movie);
 
     connect(movie, SIGNAL(stateChanged(QMovie::MovieState)),
             this, SLOT(movieStateChanged(QMovie::MovieState)));
     connect(movie, SIGNAL(error(QImageReader::ImageReaderError)),
             this, SLOT(movieError(QImageReader::ImageReaderError)));
+    connect(movie, SIGNAL(frameChanged(int)), this, SLOT(setFrameInfo(int)));
 
     QShortcut* shortcut_o = new QShortcut(QKeySequence(Qt::Key_O), this);
     connect(shortcut_o, SIGNAL(activated()), this, SLOT(showFileOpenDialog()));
@@ -182,6 +186,15 @@ void MainDialog::movieStateChanged(QMovie::MovieState state) {
 void MainDialog::setFrame(int f) {
 
     movie->jumpToFrame(f);
+
+}
+
+void MainDialog::setFrameInfo(int f) {
+
+    QString max = QString::number(movie->frameCount());
+    QString curr = QString::number(f);
+    ui.label_frame->setText("Frame: " + curr.rightJustified(max.length(), '0') +
+                            "/" + max);
 
 }
 

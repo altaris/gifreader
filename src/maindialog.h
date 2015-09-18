@@ -82,6 +82,11 @@ private slots:
     void setFrame(int f);
 
     /*!
+     * \brief Changes the frame label infos.
+     */
+    void setFrameInfo(int f);
+
+    /*!
      * \brief Shows an open file dialog.
      *
      * The chosen file path is processed by open().
