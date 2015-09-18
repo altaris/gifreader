@@ -117,11 +117,6 @@ private slots:
 private:
 
     /*!
-     * \brief Current dir.
-     */
-    QDir currentDir;
-
-    /*!
      * \brief Current file infos.
      */
     QFileInfo currentFile;

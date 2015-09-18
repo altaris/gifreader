@@ -21,7 +21,6 @@
 
 MainDialog::MainDialog(QWidget *parent)
     : QDialog(parent),
-      currentDir(QDir::home()),
       movie(new QMovie(this)) {
 
     ui.setupUi(this);
@@ -57,7 +56,7 @@ MainDialog::MainDialog(QWidget *parent)
 
 bool MainDialog::jumpToFile(int i) {
 
-    QStringList paths = currentDir.entryList(QStringList() << "*.gif",
+    QStringList paths = currentFile.dir().entryList(QStringList() << "*.gif",
                                              QDir::Files | QDir::Readable,
                                              QDir::Name);
 
@@ -77,7 +76,8 @@ bool MainDialog::jumpToFile(int i) {
         j = 0;
     }
 
-    return open(currentDir.absolutePath() + QDir::separator() + paths[j]);
+    return open(currentFile.dir().absolutePath() +
+                QDir::separator() + paths[j]);
 
 }
 
@@ -93,11 +93,15 @@ bool MainDialog::open(const QString& path) {
     if (movie->isValid()) {
 
         currentFile = QFileInfo(path);
-        currentDir = currentFile.dir();
 
-        setWindowTitle(path);
+        setWindowTitle(currentFile.absoluteFilePath());
         ui.horizontalSlider->setMinimum(1);
         ui.horizontalSlider->setMaximum(movie->frameCount());
+
+        ui.label->setToolTip(QString("Path: %1\nSize %2\nFrame count: %3")
+                             .arg(currentFile.absoluteFilePath(),
+                                  QString::number(currentFile.size()),
+                                  QString::number(movie->frameCount())));
 
         qDebug() << "Loaded" << path;
 
@@ -216,10 +220,12 @@ void MainDialog::setFrameInfo(int f) {
 
 void MainDialog::showFileOpenDialog() {
 
-    QString path = QFileDialog::getOpenFileName(this,
-                                                "Open gif",
-                                                currentDir.path(),
-                                                "Gif images (*.gif)");
+    QDir dir = currentFile.filePath().isEmpty() ?
+                QDir::home() : currentFile.dir();
+    QString path =
+            QFileDialog::getOpenFileName(this, "Open gif", dir.absolutePath(),
+                                         "Gif images (*.gif)", 0,
+                                         QFileDialog::ReadOnly);
 
     if (!path.isNull()) {
         open(path);
