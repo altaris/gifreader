@@ -26,7 +26,7 @@ int main(int argc, char* argv[]) {
 
     QApplication app(argc, argv);
     app.setApplicationName("gifreader");
-    app.setApplicationVersion("1");
+    app.setApplicationVersion("1.2");
 
     QCommandLineParser parser;
     parser.addHelpOption();

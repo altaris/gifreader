@@ -133,7 +133,7 @@ void MainDialog::openPreviousFile() {
 
 void MainDialog::movieError(QImageReader::ImageReaderError err) {
 
-    switch(err) {
+    switch (err) {
 
     case QImageReader::FileNotFoundError:
         qWarning() << "Error: QImageReader::FileNotFoundError";

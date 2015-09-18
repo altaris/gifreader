@@ -17,8 +17,8 @@
  *
  */
 
-#ifndef MAINDIALOG_H
-#define MAINDIALOG_H
+#ifndef SRC_MAINDIALOG_H_
+#define SRC_MAINDIALOG_H_
 
 #include <QCoreApplication>
 #include <QDir>
@@ -135,4 +135,4 @@ private:
 
 };
 
-#endif // MAINDIALOG_H
+#endif // SRC_MAINDIALOG_H_
