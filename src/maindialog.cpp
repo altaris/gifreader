@@ -10,6 +10,7 @@ MainDialog::MainDialog(const QString& path, QWidget *parent)
     setWindowTitle(QCoreApplication::applicationName() + " v" +
                    QCoreApplication::applicationVersion());
 
+    movie->setCacheMode(QMovie::CacheAll);
     ui.label->setMovie(movie);
 
     connect(movie, SIGNAL(stateChanged(QMovie::MovieState)),
