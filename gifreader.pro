@@ -1,6 +1,6 @@
 #-------------------------------------------------
 #
-#	gifreader : A simple gif reader
+#   gifreader : A simple gif reader
 #   Copyright (C) 2015 Altaris
 #
 #   This program is free software: you can redistribute it and/or modify
