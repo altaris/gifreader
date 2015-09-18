@@ -2,7 +2,7 @@
 
 MainDialog::MainDialog(const QString& path, QWidget *parent)
     : QDialog(parent),
-      currendDir(QDir::home()),
+      currentDir(QDir::home()),
       movie(new QMovie(this)) {
 
     ui.setupUi(this);
@@ -21,9 +21,43 @@ MainDialog::MainDialog(const QString& path, QWidget *parent)
             new QShortcut(QKeySequence(Qt::Key_Space), this);
     connect(shortcut_space, SIGNAL(activated()), this, SLOT(togglePause()));
 
+    QShortcut* shortcut_left =
+            new QShortcut(QKeySequence(Qt::Key_Left), this);
+    connect(shortcut_left, SIGNAL(activated()), this, SLOT(openPreviousFile()));
+
+    QShortcut* shortcut_right =
+            new QShortcut(QKeySequence(Qt::Key_Right), this);
+    connect(shortcut_right, SIGNAL(activated()), this, SLOT(openNextFile()));
+
     if (!path.isNull()) {
         open(path);
     }
+
+}
+
+bool MainDialog::jumpToFile(int i) {
+
+    QStringList paths = currentDir.entryList(QStringList() << "*.gif",
+                                             QDir::Files | QDir::Readable,
+                                             QDir::Name);
+
+    if (paths.isEmpty()) {
+        return false;
+    }
+
+    int c = paths.indexOf(currentFile.fileName());
+    if (c < 0) {
+        c = 0;
+    }
+
+    int j = c + i;
+    if (j < 0) {
+        j = paths.size() - 1;
+    } else if (j >= paths.size()) {
+        j = 0;
+    }
+
+    return open(currentDir.absolutePath() + QDir::separator() + paths[j]);
 
 }
 
@@ -38,15 +72,16 @@ bool MainDialog::open(const QString& path) {
 
     if (movie->isValid()) {
 
+        currentFile = QFileInfo(path);
+        currentDir = currentFile.dir();
+
         setWindowTitle(path);
         ui.horizontalSlider->setMinimum(1);
         ui.horizontalSlider->setMaximum(movie->frameCount());
 
-        currendDir = QFileInfo(path).dir();
+        qDebug() << "Loaded" << path;
 
         movie->start();
-
-        qDebug() << "Loaded" << path;
 
         return true;
 
@@ -62,6 +97,14 @@ bool MainDialog::open(const QString& path) {
 
     }
 
+}
+
+void MainDialog::openNextFile() {
+    jumpToFile(1);
+}
+
+void MainDialog::openPreviousFile() {
+    jumpToFile(-1);
 }
 
 void MainDialog::movieError(QImageReader::ImageReaderError err) {
@@ -146,7 +189,7 @@ void MainDialog::showFileOpenDialog() {
 
     QString path = QFileDialog::getOpenFileName(this,
                                                 "Open gif",
-                                                currendDir.path(),
+                                                currentDir.path(),
                                                 "Gif images (*.gif)");
 
     if (!path.isNull()) {

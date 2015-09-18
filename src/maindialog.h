@@ -39,6 +39,17 @@ public:
      */
     bool open(const QString& path);
 
+private:
+
+    /*!
+     * \brief Opens the file that is at position i relative to the current file.
+     *
+     * More explicitely, files in the current file's dir are ordered
+     * alphabetically, and file at relative index i is opened. For instance,
+     * file +1 is the next file, whereas file -1 is the previous file.
+     */
+    bool jumpToFile(int i);
+
 private slots:
 
     /*!
@@ -50,6 +61,20 @@ private slots:
      * \brief Handles movie state changes.
      */
     void movieStateChanged(QMovie::MovieState state);
+
+    /*!
+     * \brief Opens the next file.
+     *
+     * ... in the current file's dir, alphabetically speaking.
+     */
+    void openNextFile();
+
+    /*!
+     * \brief Opens the previous file.
+     *
+     * ... in the current file's dir, alphabetically speaking.
+     */
+    void openPreviousFile();
 
     /*!
      * \brief Changes the frame.
@@ -70,7 +95,15 @@ private slots:
 
 private:
 
-    QDir currendDir;
+    /*!
+     * \brief Current dir.
+     */
+    QDir currentDir;
+
+    /*!
+     * \brief Current file infos.
+     */
+    QFileInfo currentFile;
 
     /*!
      * \brief Movie handler.
