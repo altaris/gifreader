@@ -42,6 +42,21 @@ public:
 private slots:
 
     /*!
+     * \brief Called on movie errors.
+     */
+    void movieError(QImageReader::ImageReaderError err);
+
+    /*!
+     * \brief Handles movie state changes.
+     */
+    void movieStateChanged(QMovie::MovieState state);
+
+    /*!
+     * \brief Changes the frame.
+     */
+    void setFrame(int f);
+
+    /*!
      * \brief Shows an open file dialog.
      *
      * The chosen file path is processed by open().
