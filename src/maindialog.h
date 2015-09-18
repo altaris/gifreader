@@ -20,13 +20,16 @@
 #ifndef SRC_MAINDIALOG_H_
 #define SRC_MAINDIALOG_H_
 
-#include <QCoreApplication>
 #include <QDir>
 #include <QFileInfo>
 #include <QFileDialog>
+#include <QGuiApplication>
 #include <QKeySequence>
 #include <QMovie>
+#include <QPixmap>
+#include <QScreen>
 #include <QShortcut>
+#include <QSize>
 #include <QString>
 #include <QStringList>
 #include <QtDebug>
@@ -69,6 +72,11 @@ private:
 private slots:
 
     /*!
+     * \brief Changes the frame label infos.
+     */
+    void frameChanged(int f);
+
+    /*!
      * \brief Called on movie errors.
      */
     void movieError(QImageReader::ImageReaderError err);
@@ -96,11 +104,6 @@ private slots:
      * \brief Changes the frame.
      */
     void setFrame(int f);
-
-    /*!
-     * \brief Changes the frame label infos.
-     */
-    void setFrameInfo(int f);
 
     /*!
      * \brief Shows an open file dialog.

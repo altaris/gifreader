@@ -25,8 +25,8 @@ MainDialog::MainDialog(QWidget *parent)
 
     ui.setupUi(this);
 
-    setWindowTitle(QCoreApplication::applicationName() + " v" +
-                   QCoreApplication::applicationVersion());
+    setWindowTitle(QGuiApplication::applicationName() + " v" +
+                   QGuiApplication::applicationVersion());
 
     movie->setCacheMode(QMovie::CacheAll);
     ui.label->setMovie(movie);
@@ -35,7 +35,7 @@ MainDialog::MainDialog(QWidget *parent)
             this, SLOT(movieStateChanged(QMovie::MovieState)));
     connect(movie, SIGNAL(error(QImageReader::ImageReaderError)),
             this, SLOT(movieError(QImageReader::ImageReaderError)));
-    connect(movie, SIGNAL(frameChanged(int)), this, SLOT(setFrameInfo(int)));
+    connect(movie, SIGNAL(frameChanged(int)), this, SLOT(frameChanged(int)));
 
     QShortcut* shortcut_o = new QShortcut(QKeySequence(Qt::Key_O), this);
     connect(shortcut_o, SIGNAL(activated()), this, SLOT(showFileOpenDialog()));
@@ -103,9 +103,9 @@ bool MainDialog::open(const QString& path) {
                                   QString::number(currentFile.size()),
                                   QString::number(movie->frameCount())));
 
-        qDebug() << "Loaded" << path;
-
         movie->start();
+
+        qDebug() << "Loaded" << path;
 
         return true;
 
@@ -209,7 +209,11 @@ void MainDialog::setFrame(int f) {
 
 }
 
-void MainDialog::setFrameInfo(int f) {
+void MainDialog::frameChanged(int f) {
+
+    if (!isFullScreen() && !isMaximized()) {
+        resize(movie->frameRect().size());
+    }
 
     QString max = QString::number(movie->frameCount());
     QString curr = QString::number(f);
