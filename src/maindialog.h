@@ -113,7 +113,12 @@ private slots:
     void showFileOpenDialog();
 
     /*!
-     * \brief Pause or unpause depending on the state.
+     * \brief Show / hide the controls.
+     */
+    void toggleControls();
+
+    /*!
+     * \brief Pause or play depending on the state.
      */
     void togglePause();
 

@@ -24,6 +24,7 @@ MainDialog::MainDialog(QWidget *parent)
       movie(new QMovie(this)) {
 
     ui.setupUi(this);
+    ui.widget_controls->setVisible(false);
 
     setWindowTitle(QGuiApplication::applicationName() + " v" +
                    QGuiApplication::applicationVersion());
@@ -51,6 +52,9 @@ MainDialog::MainDialog(QWidget *parent)
     QShortcut* shortcut_right =
             new QShortcut(QKeySequence(Qt::Key_Right), this);
     connect(shortcut_right, SIGNAL(activated()), this, SLOT(openNextFile()));
+
+    QShortcut* shortcut_tab = new QShortcut(QKeySequence(Qt::Key_Tab), this);
+    connect(shortcut_tab, SIGNAL(activated()), this, SLOT(toggleControls()));
 
 }
 
@@ -234,6 +238,12 @@ void MainDialog::showFileOpenDialog() {
     if (!path.isNull()) {
         open(path);
     }
+
+}
+
+void MainDialog::toggleControls() {
+
+    ui.widget_controls->setVisible(!ui.widget_controls->isVisible());
 
 }
 
