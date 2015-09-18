@@ -26,11 +26,8 @@ public:
 
     /*!
      * \brief Constructor.
-     * \param path If not null, the given file is opened.
-     *
-     * The argument path is processed by open().
      */
-    explicit MainDialog(const QString& path = QString(), QWidget* parent = 0);
+    explicit MainDialog(QWidget* parent = 0);
 
     /*!
      * \brief Loads a gif file.

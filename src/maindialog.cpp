@@ -1,6 +1,6 @@
 #include "src/maindialog.h"
 
-MainDialog::MainDialog(const QString& path, QWidget *parent)
+MainDialog::MainDialog(QWidget *parent)
     : QDialog(parent),
       currentDir(QDir::home()),
       movie(new QMovie(this)) {
@@ -33,10 +33,6 @@ MainDialog::MainDialog(const QString& path, QWidget *parent)
     QShortcut* shortcut_right =
             new QShortcut(QKeySequence(Qt::Key_Right), this);
     connect(shortcut_right, SIGNAL(activated()), this, SLOT(openNextFile()));
-
-    if (!path.isNull()) {
-        open(path);
-    }
 
 }
 
