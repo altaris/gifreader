@@ -3,7 +3,7 @@
 
 #include <QCoreApplication>
 #include <QDir>
-#include <QFile>
+#include <QFileInfo>
 #include <QFileDialog>
 #include <QKeySequence>
 #include <QMovie>
@@ -55,10 +55,7 @@ private slots:
 
 private:
 
-    /*!
-     * \brief Qt generated UI builder.
-     */
-    Ui::MainDialog ui;
+    QDir currendDir;
 
     /*!
      * \brief Movie handler.
@@ -66,6 +63,11 @@ private:
      * This actually _plays_ the gifs.
      */
     QMovie* movie;
+
+    /*!
+     * \brief Qt generated UI builder.
+     */
+    Ui::MainDialog ui;
 
 };
 

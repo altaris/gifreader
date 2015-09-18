@@ -2,6 +2,7 @@
 
 MainDialog::MainDialog(const QString& path, QWidget *parent)
     : QDialog(parent),
+      currendDir(QDir::home()),
       movie(new QMovie(this)) {
 
     ui.setupUi(this);
@@ -35,13 +36,15 @@ bool MainDialog::open(const QString& path) {
 
     if (movie->isValid()) {
 
-        qDebug() << "Loaded" << path;
-
         setWindowTitle(path);
         ui.horizontalSlider->setMinimum(1);
         ui.horizontalSlider->setMaximum(movie->frameCount());
 
+        currendDir = QFileInfo(path).dir();
+
         movie->start();
+
+        qDebug() << "Loaded" << path;
 
         return true;
 
@@ -63,7 +66,7 @@ void MainDialog::showFileOpenDialog() {
 
     QString path = QFileDialog::getOpenFileName(this,
                                                 "Open gif",
-                                                QDir::homePath(),
+                                                currendDir.path(),
                                                 "Gif images (*.gif)");
 
     if (!path.isNull()) {
