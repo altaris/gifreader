@@ -24,14 +24,16 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = gifreader
 
+QMAKE_CXXFLAGS_RELEASE += -O3
+
 TEMPLATE = app
 
 SOURCES += \
-        src/main.cpp \
+    src/main.cpp \
     src/maindialog.cpp
-
-FORMS += \
-    ui/maindialog.ui
 
 HEADERS += \
     src/maindialog.h
+
+FORMS += \
+    ui/maindialog.ui
